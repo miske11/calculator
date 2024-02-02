@@ -1,21 +1,23 @@
 let num1 = "";
 let num2 = "";
 let op;
+let clicked = false;
+let first = true;
 
 function add(number1, number2) {
-    return number1 + number2;
+    return +number1 + +number2;
 }
 
 function subtract(number1, number2) {
-    return number1 - number2;
+    return +number1 - +number2;
 }
 
 function multiply(number1, number2) {
-    return number1 * number2;
+    return +number1 * +number2;
 }
 
 function divide(number1, number2) {
-    return number1 / number2;
+    return +number1 / +number2;
 }
 
 function operate(number1, operator, number2) {
@@ -42,6 +44,43 @@ const btnNum0 = document.querySelector('#b0');
 
 const btnClear = document.querySelector('#bclear');
 
+const btnAdd = document.querySelector('#add');
+const btnSub = document.querySelector('#sub');
+const btnMul = document.querySelector('#mul');
+const btnDiv = document.querySelector('#div');
+
+const btnEqual = document.querySelector('#bequal');
+
+btnAdd.addEventListener('click', () => {
+    
+    clicked = true;
+    op ="+";
+})
+
+btnSub.addEventListener('click', () => {
+    
+    clicked = true;
+    op ="-";
+})
+
+btnMul.addEventListener('click', () => {
+    
+    clicked = true;
+    op ="*";
+})
+
+btnDiv.addEventListener('click', () => {
+    
+    clicked = true;
+    op ="/";
+})
+
+btnEqual.addEventListener('click', () => {
+    let result = operate(num1,op,num2);
+    display.textContent=result;
+    num1 = result;
+})
+
 const arNumber = [btnNum0,btnNum1,btnNum2,btnNum3,btnNum4,btnNum5,btnNum6,btnNum7,btnNum8,btnNum9];
 
 for (let i = 0; i <= 9 ; i++) {
@@ -53,10 +92,26 @@ for (let i = 0; i <= 9 ; i++) {
 btnClear.addEventListener('click', () => {
     display.textContent="";
     num1="";
+    num2="";
+    op="";
+    first = true;
+    clicked = false;
 })
 
 function displayNumber(btn) {
-    console.log(btn.textContent);
-    display.textContent+=btn.textContent;
-    num1 += btn.textContent;
+    if (clicked) {
+        if (first) {
+            display.textContent="";
+            first = false;
+        }
+        display.textContent+=btn.textContent;
+        num2 += btn.textContent;
+    }
+    else {
+        display.textContent+=btn.textContent;
+        num1 += btn.textContent;
+    }
+    
 }
+
+
