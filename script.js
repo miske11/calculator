@@ -2,7 +2,8 @@ let num1 = "";
 let num2 = "";
 let op;
 let clicked = false;
-let first = true;
+let lastClicked;
+let nEq = false;
 
 function add(number1, number2) {
     return +number1 + +number2;
@@ -52,40 +53,79 @@ const btnDiv = document.querySelector('#div');
 const btnEqual = document.querySelector('#bequal');
 
 btnAdd.addEventListener('click', () => {
+    if (nEq) {
+        let result = operate(num1,lastClicked,num2);
+        num1 = result;
+        num2 = "";
+        display.textContent = result;
+    }
+    op = "+";
+    lastClicked = "+";
+    click();
     
-    clicked = true;
-    op ="+";
+    nEq = true;
 })
 
 btnSub.addEventListener('click', () => {
+    if (nEq) {
+        let result = operate(num1,lastClicked,num2);
+        num1 = result;
+        num2 = "";
+        display.textContent = result;
+    }
+    op = "-";
+    lastClicked = "-";
+    click();
     
-    clicked = true;
-    op ="-";
+    nEq = true;
 })
 
 btnMul.addEventListener('click', () => {
-    
-    clicked = true;
-    op ="*";
+    if (nEq) {
+        let result = operate(num1,lastClicked,num2);
+        num1 = result;
+        num2 = "";
+        display.textContent = result;
+    }
+    op = "*";
+    lastClicked = "*";
+    click();
+    nEq = true;
 })
 
 btnDiv.addEventListener('click', () => {
-    
-    clicked = true;
-    op ="/";
+    if (nEq) {
+        let result = operate(num1,lastClicked,num2);
+        num1 = result;
+        num2 = "";
+        display.textContent = result;
+    }
+    op = "/";
+    lastClicked = "/";
+    click();
+
+    nEq = true;
 })
 
 btnEqual.addEventListener('click', () => {
-    let result = operate(num1,op,num2);
-    display.textContent=result;
-    num1 = result;
+    if (num1 === "" || num2 === "") {
+
+    }
+    else {
+        let result = operate(num1,op,num2);
+        num1 = result;
+        num2 = "";
+        display.textContent = result;
+        nEq = false;
+    }
 })
 
 const arNumber = [btnNum0,btnNum1,btnNum2,btnNum3,btnNum4,btnNum5,btnNum6,btnNum7,btnNum8,btnNum9];
 
 for (let i = 0; i <= 9 ; i++) {
-    arNumber[i].addEventListener('click', function() {
+    arNumber[i].addEventListener('click', () => {
         displayNumber(arNumber[i]);
+        rememberNumber(arNumber[i].textContent);
     })
 }
 
@@ -94,24 +134,27 @@ btnClear.addEventListener('click', () => {
     num1="";
     num2="";
     op="";
-    first = true;
     clicked = false;
+    lastClicked = false;
 })
 
 function displayNumber(btn) {
     if (clicked) {
-        if (first) {
-            display.textContent="";
-            first = false;
-        }
-        display.textContent+=btn.textContent;
-        num2 += btn.textContent;
+        display.textContent = "";
+        clicked = false;
     }
-    else {
-        display.textContent+=btn.textContent;
-        num1 += btn.textContent;
-    }
-    
+    display.textContent += btn.textContent;
 }
 
+function rememberNumber(value) {
+    if (op) {
+        num2 += value;
+    }
+    else {
+        num1 += value;
+    }
+} 
 
+function click() {
+    clicked = true;
+}
