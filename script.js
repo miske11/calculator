@@ -136,6 +136,7 @@ btnClear.addEventListener('click', () => {
     op="";
     clicked = false;
     lastClicked = false;
+    nEq = false;
 })
 
 function displayNumber(btn) {
